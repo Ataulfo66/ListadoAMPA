@@ -22,22 +22,32 @@ tabla.write("Nombre;telefono;email;Cuota\n")
 while finIO < (longitud - 10):
     #Busca en cadenacruda el siguiente 'BEGIN:VCARD'
     posini = cadenacruda.find('BEGIN:VCARD', finIO)
+    finIO = cadenacruda.find('END:VCARD', posini)
     #Busca el nombre
     posFN = cadenacruda.find('FN:', posini)
     posFN_ = cadenacruda.find('\n', posFN)
-    #Escribe el nombre en el fichero tabla.txt
-    tabla.write(cadenacruda[posFN+3:posFN_]+';')
+    if posFN_ > finIO:
+        tabla.write(';')
+    else:
+        #Escribe el nombre en el fichero tabla.txt
+        tabla.write(cadenacruda[posFN+3:posFN_]+';')
     #Busca el telefono
     posTEL = cadenacruda.find('TEL', posini)
     posTELc = cadenacruda.find(':', posTEL)
     posTEL_ = cadenacruda.find('\n', posTEL)
-    #Escribe el correo electrónico en el fichero tabla.txt
-    tabla.write(cadenacruda[posTELc+1:posTEL_]+';')
+    if posTEL_ > finIO:
+        tabla.write(';')
+    else:
+        #Escribe el correo electrónico en el fichero tabla.txt
+        tabla.write(cadenacruda[posTELc+1:posTEL_]+';')
     #Busca el correo electrónico
     posEMAIL = cadenacruda.find('EMAIL', posini)
     posEMAILc = cadenacruda.find(':', posEMAIL)
     posEMAIL_ = cadenacruda.find('\n', posEMAIL)
-    #Escribe el correo electrónico en el fichero tabla.txt
-    tabla.write(cadenacruda[posEMAILc+1:posEMAIL_]+';\n')
-    finIO = cadenacruda.find('END:VCARD', posini)
+    if posEMAIL_ > finIO:
+        tabla.write(';')
+    else:
+        #Escribe el correo electrónico en el fichero tabla.txt
+        tabla.write(cadenacruda[posEMAILc+1:posEMAIL_]+';')
+    tabla.write('\n')
 tabla.close()
